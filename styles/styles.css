@@ -71,7 +71,7 @@ h1 {
 }
 
 .box {
-  width: 70%;
+  width: 30%;
   border:1px solid #454545;
   background-color: #0d0d0d;
   display: flex;
@@ -110,4 +110,32 @@ footer {
   position: absolute;
   top: calc(100% - 30px);
   text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  .box {
+    width: 90%;
+  }
+
+  .box input {
+    width: 90%;
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .box {
+    width: 60%;
+  }
+
+  .box input {
+    width: 90%;
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .box {
+    width: 50%;
+  }
 }
