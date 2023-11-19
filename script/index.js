@@ -122,6 +122,10 @@ class ConversorRomanos {
 		let enderecoCaractereVizinho;
 		
 		if(valorVizinho.length === 2) {
+			if(caractereAtual.length === 2 && caractereAtual === valorVizinho) {
+				return true;
+			}
+
 			if(this.algarismosRomanos.includes(valorVizinho)) {
 				enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho);
 	
@@ -156,11 +160,14 @@ class ConversorRomanos {
 
 				operacaoInvalida = this.menorQueVizinho(valorAdjacente, valorVizinho);
 			} 
+
 			if(!this.algarismosRomanos.includes(valorAdjacente)) {
 				const caractereAtual = valor[index];
 				valorVizinho = valor[index+1];
 				
-				if(valor[index+2]) valorVizinho += valor[index+2];
+				if(valor[index+2] && (this.algarismosRomanos.includes(valor[index+1] + valor[index+2]))) {
+					valorVizinho += valor[index+2];
+				} 
 				
 				operacaoInvalida = this.menorQueVizinho(caractereAtual, valorVizinho);
 			}
