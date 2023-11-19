@@ -2,7 +2,7 @@ class ConversorRomanos {
 	constructor() {
 		this.input = document.querySelector('#valorInput');
 		this.areaResultado = document.querySelector('#result');
-		this.modoAtual = 'romanoArabico';
+		this.modoAtual = 'arabicoRomano';
 		this.botoesOpcao = document.querySelectorAll('.options button');
 		this.algarismosRomanos   = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
 		this.valoresIndoArabicos = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
@@ -96,7 +96,7 @@ class ConversorRomanos {
 		}
 		
 		if(this.excedeLimite(valor)) return;
-		if(this.subtracaoInvalida()) return;
+		if(this.subtracaoInvalida(valor)) return;
 		
 		for(let caractere = 0; caractere < valor.length; caractere++) {	
 			for(let i = 0; i < this.algarismosRomanos.length; i++) {
@@ -109,7 +109,6 @@ class ConversorRomanos {
 				}
 				
 				if((valor[caractere]) === this.algarismosRomanos[i]) {
-					
 					soma += this.valoresIndoArabicos[i];
 				}
 			}
@@ -118,101 +117,71 @@ class ConversorRomanos {
 		return soma;
 	}
 	
-	subtracaoInvalida() {
-		let valor = 'CMIX';
-		
+	subtracaoInvalida(valor) {
 		for(let index = 0; index < valor.length; index++) {
 			let enderecoCaractere;
-			let valorVizinho;
 			let enderecoCaractereVizinho;
 
+			if(index === valor.length-1) break;
+			
 			if(valor[index + 1]) {
+				let valorVizinho = '';
 				const valorAdjacente = valor[index] + valor[index + 1];
-				let valorVizinho;
-				let valorAdjacenteVizinho;
-				let caractereSubtraido = false;
 
 				if(this.algarismosRomanos.includes(valorAdjacente)) {
 					enderecoCaractere = this.algarismosRomanos.indexOf(valorAdjacente);	
-					caractereSubtraido = true;
-				} 
 
-				if(caractereSubtraido === true) {
 					if(valor[index+2]) valorVizinho = valor[index+2];
 					if(valor[index+3]) valorVizinho += valor[index+3];
 
-					if(this.algarismosRomanos.includes(valorVizinho)) {
-						enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho)
+					//verifica se o caractere subtraido atual é menor que o caractere subtraido em sequência
+					if(valorVizinho.length === 2) {
+						if(this.algarismosRomanos.includes(valorVizinho)) {
+							enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho);
+							
+							if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
+								return true;
+							}
+							return false;
+						} 
+					} 
+
+					if(valorVizinho.length === 1) {
+						enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho);
 						
-						if(this.algarismosRomanos(enderecoCaractere))
+						if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
+							return true;
+						}
+						return false;
+					}
+				} 
+
+				if(!this.algarismosRomanos.includes(valorAdjacente)) {
+					enderecoCaractere = this.algarismosRomanos.indexOf(valor[index]);
+					enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valor[index+1]);
+					
+					if(valor[index+2]) {
+						valorVizinho = valor[index+1] + valor[index+2];
+
+						if(this.algarismosRomanos.includes(valorVizinho)){
+							enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho);
+
+							if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
+								return true;
+							}
+							return false;
+						}							
 					}
 
-					// if(valor[index+2]) {
-					// 	if(valor[index+3]) {
-	
-					// 		if(this.algarismosRomanos.includes(valorAdjacenteVizinho)) {
-					// 			enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorAdjacenteVizinho) 
-							
-					// 			if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
-					// 				return;
-					// 			}
-					// 		}
-					// 	}
-
-					// 	console.log(valor[index+3]);
-
-					// 	if(valor[index+2]) {
-					// 		console.log('entrou')
-					// 		valorVizinho = valor[index+2];
-					// 		console.log(valorVizinho);
-					// 	} 
-					// }
-
+					if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
+						return true;
+					}
+					return false;
 				}
-				
-				// if(valor[index+2]) {
-				// 	if(caractereSubtraido) {
-				// 		caractereVizinho = valor[index+2];
-				// 		console.log(caractereVizinho);
-				// 	}
-				// }
-				
-				// if(valor[index+2]) {
-				// 	const valorAdjacenteVizinho = valor[index+1] + valor[index+2]; 
-					
-				// 	if(this.algarismosRomanos.includes(valorAdjacenteVizinho)) {
-				// 		const enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorAdjacenteVizinho);
-				// 	}
-				// }
 			}
-			
-			
-			
-			// if(caractereVizinho) {
-			// 	//caractere menor antecedendo valor subtraído maior
-			// 	if(valor[index+2]) {
-			// 		const valorAdjacenteVizinho = valor[index+1] + valor[index+2]; 
-			
-			// 		if(this.algarismosRomanos.includes(valorAdjacenteVizinho)) {
-			// 			const enderecoValorAdjacente = this.algarismosRomanos.indexOf(valorAdjacenteVizinho);
-			
-			// 			if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoValorAdjacente]) {
-			// 				return true;
-			// 			}
-			
-			// 			return false;
-			// 		}
-			// 	}
-			
-			// 	//caractere menor antecedendo caractere maior
-			// 	if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
-			// 		// console.log(valor[index-1],valor[index], caractereVizinho)
-			// 		return true;
-			// 	}
-			// }
 		}		
 	}
-	
+
 	
 	atualizarResultado(resultadoAtual) {
 		const valorAtual = resultadoAtual;
