@@ -81,8 +81,7 @@ class ConversorRomanos {
 			
 			if(valor[caractere] === ultimoCaractere) contadorCaractere++;
 		}
-		
-		
+			
 		if(contadorCaractere > 3) return true;
 		return false;
 	}
@@ -182,7 +181,6 @@ class ConversorRomanos {
 		}		
 	}
 
-	
 	atualizarResultado(resultadoAtual) {
 		const valorAtual = resultadoAtual;
 		
