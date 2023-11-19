@@ -32,7 +32,8 @@ class ConversorRomanos {
 				const botaoAtivo = document.querySelector('button.active');
 				
 				if(!botao.classList.contains('active')) {
-					this.areaResultado.innerHTML = '';
+					this.areaResultado.innerHTML = '-';
+					this.areaResultado.style.visibility = 'hidden';
 					this.input.value = '';
 				}
 				
@@ -186,12 +187,22 @@ class ConversorRomanos {
 		
 		if(typeof valorAtual === 'undefined') {
 			this.areaResultado.style.fontFamily = "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif";
-			this.areaResultado.style.fontSize = '1.8em';
 			this.areaResultado.innerHTML = 'Valor inválido.';
+			this.areaResultado.style.visibility = 'visible';
 			return;
 		}
 		
 		this.areaResultado.innerHTML = valorAtual;
+
+		if(this.modoAtual === 'arabicoRomano') {
+			this.areaResultado.style.fontFamily = "'Cormorant Garamond', serif";
+		}
+		this.areaResultado.style.visibility = 'visible';
+
+		if(this.areaResultado.innerHTML === '') {
+			this.areaResultado.innerHTML = '-';
+			this.areaResultado.style.visibility = 'hidden';
+		}
 	}
 }
 
