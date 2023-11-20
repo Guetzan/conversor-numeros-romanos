@@ -1,5 +1,5 @@
 class ConversorRomanos {
-	constructor(input, areaResultado, botoesOpcao) {
+	constructor() {
 		this.input = document.querySelector('#valorInput');
 		this.areaResultado = document.querySelector('#result');
 		this.modoAtual = 'arabicoRomano';
