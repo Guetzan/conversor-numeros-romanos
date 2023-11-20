@@ -1,5 +1,5 @@
 class ConversorRomanos {
-	constructor() {
+	constructor(input, areaResultado, botoesOpcao) {
 		this.input = document.querySelector('#valorInput');
 		this.areaResultado = document.querySelector('#result');
 		this.modoAtual = 'arabicoRomano';
@@ -85,8 +85,6 @@ class ConversorRomanos {
 		return false;
 	}
 
-
-	
 	conversorRomanoArabico(valor) {
 		let soma = 0;
 		valor = valor.toUpperCase().split('');
@@ -110,6 +108,7 @@ class ConversorRomanos {
 				
 				if((valor[caractere]) === this.algarismosRomanos[i]) {
 					soma += this.valoresIndoArabicos[i];
+					delete valor[caractere];
 				}
 			}
 		}
@@ -135,7 +134,7 @@ class ConversorRomanos {
 			}
 		}
 
-		enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho);
+		enderecoCaractereVizinho = this.algarismosRomanos.indexOf(valorVizinho[0]);
 	
 		if(this.valoresIndoArabicos[enderecoCaractere] < this.valoresIndoArabicos[enderecoCaractereVizinho]) {
 			return true;
@@ -146,17 +145,22 @@ class ConversorRomanos {
 		let operacaoInvalida = false;
 
 		for(let index = 0; index < valor.length; index++) {
-			if(operacaoInvalida) break;
 			let valorVizinho = '';
 
 			//se não existir um valor vizinho, o loop é interrompido
 			if(!valor[index+1]) break;
-			
+
 			const valorAdjacente = valor[index] + valor[index + 1];
+
+			if(valor[index+1] && this.algarismosRomanos.includes(valorAdjacente) && !valor[index+2]) {
+				break;
+			}
 			
 			if(this.algarismosRomanos.includes(valorAdjacente)) {
 				if(valor[index+2]) valorVizinho = valor[index+2];
 				if(valor[index+3]) valorVizinho += valor[index+3];
+				
+				if(valorVizinho === 'C') return true;
 
 				operacaoInvalida = this.menorQueVizinho(valorAdjacente, valorVizinho);
 			} 
@@ -180,7 +184,6 @@ class ConversorRomanos {
 		const valorAtual = resultadoAtual;
 		
 		if(typeof valorAtual === 'undefined') {
-			this.areaResultado.style.fontFamily = "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif";
 			this.areaResultado.innerHTML = 'Valor inválido.';
 			this.areaResultado.style.visibility = 'visible';
 			return;
@@ -190,7 +193,7 @@ class ConversorRomanos {
 
 		if(this.modoAtual === 'arabicoRomano') {
 			this.areaResultado.style.fontFamily = "'Cormorant Garamond', serif";
-		}
+		} 
 
 		this.areaResultado.style.visibility = 'visible';
 
@@ -201,6 +204,7 @@ class ConversorRomanos {
 	}
 }
 
-conversor = new ConversorRomanos;
+
+const conversor = new ConversorRomanos;
 conversor.capturarTrocaOpcao();
 conversor.capturarTeclado();
